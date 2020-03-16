@@ -1,0 +1,23 @@
+{
+  "@pnp/generator-spfx": {
+    "framework": "react",
+    "pnpFramework": "reactjs.plus",
+    "pnp-libraries": [
+      "@pnp/pnpjs"
+    ],
+    "pnp-ci": "no-devops",
+    "pnp-vetting": [],
+    "spfxenv": "onprem19",
+    "pnp-testing": []
+  },
+  "@microsoft/generator-sharepoint": {
+    "environment": "onprem19",
+    "framework": "react",
+    "isCreatingSolution": true,
+    "version": "1.10.0",
+    "libraryName": "on-premise-test-1",
+    "libraryId": "35451d43-41f3-432c-a67e-bf7543a24d70",
+    "packageManager": "npm",
+    "componentType": "webpart"
+  }
+}

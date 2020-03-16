@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "on-premise-test-1-client-side-solution",
+    "id": "35451d43-41f3-432c-a67e-bf7543a24d70",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true
+  },
+  "paths": {
+    "zippedPackage": "solution/on-premise-test-1.sppkg"
+  }
+}
