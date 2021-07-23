@@ -43,7 +43,7 @@
       },
       "DemoSpfxWebPartStrings": {
         "type": "path",
-        "path": "DemoSpfxWebPartStrings_en-us.js"
+        "path": "DemoSpfxWebPartStrings_de-de.js"
       },
       "@microsoft/sp-lodash-subset": {
         "type": "component",

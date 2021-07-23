@@ -5,7 +5,8 @@ import { cloneDeep, escape } from '@microsoft/sp-lodash-subset';
 import { IDemoSpfxState } from './IDemoSpfxState';
 import { IListInfo } from '../../../models/IListInfo';
 import { SPHttpClient } from '@microsoft/sp-http';
-import { TextField } from 'office-ui-fabric-react';
+import { Label, TextField } from 'office-ui-fabric-react';
+import * as strings from 'DemoSpfxWebPartStrings';
 
 export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxState> {
   constructor(props: IDemoSpfxProps) {
@@ -53,12 +54,14 @@ export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxS
   public render(): React.ReactElement<IDemoSpfxProps> {
     console.log(this.context);
     return (
-      <div className={styles.demoSpfx}>
-        Hello {this.props.wpContext.pageContext.user.displayName}
-    
-        <TextField  />
+      <div className={styles.myContainer}>
 
-        <ul>
+        <Label className={styles.welcomeMessage}>{strings.MessageTextHello} {this.props.wpContext.pageContext.user.displayName}  </Label>
+
+
+        <TextField />
+
+        <ul className="myFixedClassName">
           {
             this.state.lists.map(
               (currentList: IListInfo) => {

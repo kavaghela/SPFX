@@ -51,11 +51,11 @@ export default class DemoSpfxWebPart extends BaseClientSideWebPart<IDemoSpfxWebP
       pages: [
         {
           header: {
-            description: "Use this panel to configure web part"
+            description: strings.PropertyPaneDescription
           },
           groups: [
             {
-              groupName: "My Group1",
+              groupName: strings.BasicGroupName,
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel

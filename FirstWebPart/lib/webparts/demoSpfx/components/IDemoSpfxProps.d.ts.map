@@ -1,1 +1,0 @@
-{"version":3,"file":"IDemoSpfxProps.d.ts","sourceRoot":"","sources":["../../../../src/webparts/demoSpfx/components/IDemoSpfxProps.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,4BAA4B,CAAC;AAE5D,MAAM,WAAW,cAAc;IAC7B,WAAW,EAAE,MAAM,CAAC;IACpB,SAAS,EAAC,MAAM,CAAC;IACjB,SAAS,EAAC,cAAc,CAAC;CAC1B"}
