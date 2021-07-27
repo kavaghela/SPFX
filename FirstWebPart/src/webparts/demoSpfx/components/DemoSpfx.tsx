@@ -9,6 +9,7 @@ import { Button, Label, PrimaryButton, TextField } from 'office-ui-fabric-react'
 import * as strings from 'DemoSpfxWebPartStrings';
 import ListUrls from '../../../data/ListUrls';
 import { IMyListItem } from '../../../models/IMyListItem';
+import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
 
 export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxState> {
 
@@ -88,6 +89,13 @@ export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxS
           }
         </ul>
         <PrimaryButton label="Add Data" onClick={this.onAddData.bind(this)}>Add Data</PrimaryButton>
+        <PrimaryButton label="Update Data" onClick={this.onUpdateData.bind(this)}>Update Data</PrimaryButton>
+
+        <PeoplePicker
+          ensureUser={true}
+          context={this.props.wpContext}
+          principalTypes={[PrincipalType.User]}          
+        ></PeoplePicker>
       </div>
     );
   }
@@ -117,6 +125,40 @@ export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxS
           Accept: "application/json;odata=verbose",
           'Content-type': 'application/json;odata=nometadata',
           'odata-version': ''
+        },
+        body: JSON.stringify(body)
+      }
+    );
+    console.log(await dataAdded.json());
+
+
+  }
+
+  private onUpdateData = async (): Promise<void> => {
+
+
+    // lists/getbytitle('')/items
+    //lists/getbyid(guid'')/items
+    //lists/getlist('')
+
+    const body = {
+      // "__metadata": {
+      //   "type": "SP.Data.CRUDDemoListItem"
+      // },
+      "Title": "Sample Updated"
+    }
+
+    const dataAdded = await this.props.wpContext.spHttpClient.post(
+      this.props.wpContext.pageContext.web.absoluteUrl +
+      "/_api/web/lists/getbyid(guid'" + this.listId + "')/items(3)",
+      SPHttpClient.configurations.v1,
+      {
+        headers: {
+          Accept: "application/json;odata=verbose",
+          'Content-type': 'application/json;odata=nometadata',
+          'odata-version': '',
+          'IF-MATCH': "*",
+          'X-HTTP-Method': 'MERGE'
         },
         body: JSON.stringify(body)
       }
