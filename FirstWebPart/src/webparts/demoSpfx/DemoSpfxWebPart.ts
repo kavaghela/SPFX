@@ -14,6 +14,7 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'DemoSpfxWebPartStrings';
 import DemoSpfx from './components/DemoSpfx';
 import { IDemoSpfxProps } from './components/IDemoSpfxProps';
+import ListService from '../../services/ListService';
 
 export interface IDemoSpfxWebPartProps {
   description: string;
@@ -24,13 +25,25 @@ export interface IDemoSpfxWebPartProps {
 
 export default class DemoSpfxWebPart extends BaseClientSideWebPart<IDemoSpfxWebPartProps> {
 
+  private _listService: ListService;
+
+  onInit = (): Promise<void> => {
+    return new Promise<void>(
+      (resolve) => {
+        this._listService = new ListService(this.context);
+        resolve();
+      }
+    );
+  }
+
   public render(): void {
     const element: React.ReactElement<IDemoSpfxProps> = React.createElement(
       DemoSpfx,
       {
         description: this.properties.description,
         property1: this.properties.prop1,
-        wpContext: this.context
+        wpContext: this.context,
+        listService: this._listService
       }
     );
 

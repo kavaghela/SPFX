@@ -5,10 +5,14 @@ import { cloneDeep, escape } from '@microsoft/sp-lodash-subset';
 import { IDemoSpfxState } from './IDemoSpfxState';
 import { IListInfo } from '../../../models/IListInfo';
 import { SPHttpClient } from '@microsoft/sp-http';
-import { Label, TextField } from 'office-ui-fabric-react';
+import { Button, Label, PrimaryButton, TextField } from 'office-ui-fabric-react';
 import * as strings from 'DemoSpfxWebPartStrings';
+import ListUrls from '../../../data/ListUrls';
+import { IMyListItem } from '../../../models/IMyListItem';
 
 export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxState> {
+
+  private listId: string;
   constructor(props: IDemoSpfxProps) {
     super(props);
 
@@ -36,6 +40,15 @@ export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxS
         )
       }
 
+
+
+      const listId = await this.props.listService.getListIdByRelUrl(ListUrls.CRUDDemo)
+      this.listId = listId;
+      const listData: IMyListItem[] = await this.props.listService.getListDataById(listId);
+
+      console.log(listData);
+
+
       this.setState(
         (prevState: IDemoSpfxState): IDemoSpfxState => {
           const newState = cloneDeep(prevState);
@@ -48,6 +61,8 @@ export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxS
     catch (error) {
       console.log(error);
     }
+
+
 
 
   }
@@ -72,8 +87,42 @@ export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxS
             )
           }
         </ul>
-
+        <PrimaryButton label="Add Data" onClick={this.onAddData.bind(this)}>Add Data</PrimaryButton>
       </div>
     );
+  }
+
+
+
+  private onAddData = async (): Promise<void> => {
+
+
+    // lists/getbytitle('')/items
+    //lists/getbyid(guid'')/items
+    //lists/getlist('')
+
+    const body = {
+      // "__metadata": {
+      //   "type": "SP.Data.CRUDDemoListItem"
+      // },
+      "Title": "Sample"
+    }
+
+    const dataAdded = await this.props.wpContext.spHttpClient.post(
+      this.props.wpContext.pageContext.web.absoluteUrl +
+      "/_api/web/lists/getbyid(guid'" + this.listId + "')/items",
+      SPHttpClient.configurations.v1,
+      {
+        headers: {
+          Accept: "application/json;odata=verbose",
+          'Content-type': 'application/json;odata=nometadata',
+          'odata-version': ''
+        },
+        body: JSON.stringify(body)
+      }
+    );
+    console.log(await dataAdded.json());
+
+
   }
 }
