@@ -9,7 +9,9 @@ import { Button, Label, PrimaryButton, TextField } from 'office-ui-fabric-react'
 import * as strings from 'DemoSpfxWebPartStrings';
 import ListUrls from '../../../data/ListUrls';
 import { IMyListItem } from '../../../models/IMyListItem';
+
 import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
+import FieldNames from '../../../data/FieldNames';
 
 export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxState> {
 
@@ -45,7 +47,21 @@ export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxS
 
       const listId = await this.props.listService.getListIdByRelUrl(ListUrls.CRUDDemo)
       this.listId = listId;
-      const listData: IMyListItem[] = await this.props.listService.getListDataById(listId);
+      //const listData: IMyListItem[] = await this.props.listService.getListDataById(listId);
+
+      const listData = await this.props.listService.getListDataByCamlQuery(
+        ListUrls.CRUDDemo,
+        `<Query>
+            <Where>
+              <Gt>
+                <FieldRef Name='Number1' />
+                <Value Type='Number'>350</Value>
+              </Gt>
+            </Where>
+         </Query>
+        `,
+        [FieldNames.BooleanField, FieldNames.Title, FieldNames.Number1]
+      );
 
       console.log(listData);
 
@@ -94,7 +110,7 @@ export default class DemoSpfx extends React.Component<IDemoSpfxProps, IDemoSpfxS
         <PeoplePicker
           ensureUser={true}
           context={this.props.wpContext}
-          principalTypes={[PrincipalType.User]}          
+          principalTypes={[PrincipalType.User]}
         ></PeoplePicker>
       </div>
     );

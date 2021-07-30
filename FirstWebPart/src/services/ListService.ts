@@ -2,6 +2,9 @@ import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPHttpClient } from '@microsoft/sp-http';
 import { IMyListItem } from "../models/IMyListItem";
 import FieldNames from '../data/FieldNames';
+import { sp } from "@pnp/sp";
+import "@pnp/sp/presets/all";
+
 
 export default class ListService {
 
@@ -51,5 +54,30 @@ export default class ListService {
         }
         return myListItems;
     }
+
+    public getListDataByCamlQuery = async (listUrl: string, query: string, viewFields: string[]): Promise<any> => {
+
+        // let viewFieldsXML = "<ViewFields>";
+        // viewFields.forEach(
+        //     (fieldname) => {
+        //         viewFieldsXML += `<FieldRef Name=${fieldname} />`
+        //     });
+        // viewFieldsXML += "</ViewFields>";
+
+        let viewXML = `<View>${query}</View>`;
+        const getDataByCAMLQueryResponse = await sp.web.getList(this.currentRelUrl + "/" + listUrl).renderListDataAsStream(
+            {
+                ViewXml: viewXML
+            }
+
+        );
+        let allItems = await sp.web.getList(this.currentRelUrl + "/" + listUrl).items.get();
+
+        console.log(getDataByCAMLQueryResponse);
+
+        return getDataByCAMLQueryResponse;
+
+    }
+
 
 }

@@ -15,6 +15,7 @@ import * as strings from 'DemoSpfxWebPartStrings';
 import DemoSpfx from './components/DemoSpfx';
 import { IDemoSpfxProps } from './components/IDemoSpfxProps';
 import ListService from '../../services/ListService';
+import { sp } from "@pnp/sp";
 
 export interface IDemoSpfxWebPartProps {
   description: string;
@@ -31,6 +32,12 @@ export default class DemoSpfxWebPart extends BaseClientSideWebPart<IDemoSpfxWebP
     return new Promise<void>(
       (resolve) => {
         this._listService = new ListService(this.context);
+        sp.setup(
+          {
+            spfxContext: this.context
+          }
+        );
+
         resolve();
       }
     );
